@@ -10,8 +10,8 @@
      String rol="";
      String correo="";
     HttpSession sesionOk=request.getSession();
-    if(sesionOk.getAttribute("usuario")!=null){
-    usuario=sesionOk.getAttribute("usuario").toString();
+    if(sesionOk.getAttribute("logueo")!=null){
+    usuario=sesionOk.getAttribute("logueo").toString();
     rol=sesionOk.getAttribute("rol").toString();
      correo=sesionOk.getAttribute("correo").toString();
     }
@@ -54,7 +54,7 @@
                     </li>
 
                     <li class="nav-item active">
-                        <a class="nav-link" href="#"><i class="fas fa-address-book"></i>Contacto</a>
+        <%if(rol.equalsIgnoreCase("admin")){%><a class="nav-link" href="#"><i class="fas fa-address-book"></i>Contacto</a><%}%>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -66,8 +66,8 @@
                         <i class="fas fa-user-tie"></i> ${logueo}</a>
                     <div class="dropdown-menu text-center dropdown-menu-right">
                         <a class="dropdown-item" href="#"><img src="img/user.png" alt="60" height="60"/></a>                        
-   <%--<%=usuario%> --%>           <a class="dropdown-item" href="#">${user}</a>
-        <%--<%=correo%>--%> <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal">${correo}</a>
+   <%--<%=usuario%> --%>           <a class="dropdown-item" href="www">${user}</a>
+        <%--<%=correo%>--%> <a class="dropdown-item" href="#xd" data-toggle="modal" data-target="#myModal">${correo}</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="">Mis Compras</a>
                         <div class="dropdown-divider"></div>
@@ -147,7 +147,7 @@
                                             <label>Password</label>
                                             <input type="password" name="txtpass" class="form-control" placeholder="Password">
                                         </div>                                   
-                                        <button type="submit" name="op" value="Validar" class="btn btn-outline-danger btn-block">Iniciar</button>
+                                        <button type="submit" name="op" value="ValidarP" class="btn btn-outline-danger btn-block">Iniciar</button>
                                                            <%--name="op" value="Validar" --%> 
                                     </form>
                                 </div>

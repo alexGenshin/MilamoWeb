@@ -34,8 +34,8 @@ public class ServletPrincipal extends HttpServlet {
     List<CarroCompras> listcar = new ArrayList<>();
     Vendedor ve = new Vendedor();
     VendedorDAO vdao = new VendedorDAO();
-    String logueo = "Iniciar Sesion";
-    String correo = "Iniciar Sesion";
+    String logueo = "Iniciar Sesion?";
+    String correo = "Iniciar Sesionxd";
 
     int cont;
     double totalPago = 0.0;
@@ -51,20 +51,22 @@ public class ServletPrincipal extends HttpServlet {
         productos = prsql.listar();
         switch (op) {
             case "Validar":
-                String email = request.getParameter("txtemail");
-                String pass = request.getParameter("txtpass");
-                
-                cl = cldao.Validar(email, pass);
-                ve = vdao.Validar(email, pass);
-                if (cl.getId() != 0) {
-                    logueo = cl.getNombres();
-                    correo = cl.getEmail();
-                    response.sendRedirect("ServletPrincipal?op=home");
-                } else if (ve.getId() != 0) {
-                    logueo = ve.getNombres();
-                    correo = ve.getEmail();
-                    response.sendRedirect("ServletPrincipal?op=NuevoProducto");
-                }
+//                String email = request.getParameter("txtemail");
+//                String pass = request.getParameter("txtpass");
+//                
+//                cl = cldao.Validar(email, pass);
+//                ve = vdao.Validar(email, pass);               
+//                System.out.println("Cliente --"+cl.getId());
+//                System.out.println("Vendedor --"+ve.getId()+ve.getNombres()+ve.getDni());
+//                if (cl.getId() != 0) {
+//                    logueo = cl.getNombres();
+//                    correo = cl.getEmail();
+//                    response.sendRedirect("ServletPrincipal?op=home");
+//                } else if (ve.getId() != 0) {
+//                    logueo = ve.getNombres();
+//                    correo = ve.getEmail();
+//                    response.sendRedirect("ServletPrincipal?op=NuevoProducto");
+//                }
 
                 break;
             case "Registrar":
@@ -221,27 +223,30 @@ public class ServletPrincipal extends HttpServlet {
         
         
         try {
+        Conexion cn = new Conexion();  
+       String op=request.getParameter("op");
+if(op.equalsIgnoreCase("ValidarP")){
 String email = request.getParameter("txtemail");
 String pass = request.getParameter("txtpass");
-          Conexion cn = new Conexion();               
+                       
      PreparedStatement pst = cn.getConnection().prepareStatement("select * from cliente where Email=? and Password=?");
         pst.setString(1, email);
         pst.setString(2, pass);
         ResultSet rs=pst.executeQuery();
         if(rs.next()){
             HttpSession sesionOk=request.getSession();
-            sesionOk.setAttribute("nombre", rs.getString(3));
+            sesionOk.setAttribute("logueo", rs.getString(3));
             sesionOk.setAttribute("correo", rs.getString(5));
             sesionOk.setAttribute("rol", rs.getString(7));
             cn.getConnection().close();
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            
+        }
 
         }else{
             String msg="USUARIO O PASSWORD INCORRECTOS";
              cn.getConnection().close();
             request.setAttribute("msg", msg);
-            request.getRequestDispatcher("Vistas/Login.jsp").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         
         }
 
